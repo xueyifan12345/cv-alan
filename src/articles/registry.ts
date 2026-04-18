@@ -116,6 +116,10 @@ export const articleRegistry: ArticleConfig[] = [
       citation: [
         { '@type': 'WebPage', name: 'OWASP Top 10 for LLM Applications', url: 'https://owasp.org/www-project-top-10-for-large-language-model-applications/' },
         { '@type': 'TechArticle', name: 'Anthropic Tool Use Documentation', url: 'https://docs.anthropic.com/en/docs/build-with-claude/tool-use' },
+        { '@type': 'TechArticle', name: 'Langfuse — Open Source LLM Engineering Platform', url: 'https://langfuse.com/docs' },
+        { '@type': 'TechArticle', name: 'Supabase pgvector — Vector Embeddings Documentation', url: 'https://supabase.com/docs/guides/ai/vector-embeddings' },
+        { '@type': 'TechArticle', name: 'Anthropic — Defending Against Prompt Injection', url: 'https://www.anthropic.com/news/prompt-injections' },
+        { '@type': 'WebPage', name: 'Prompt Injection (Wikipedia)', url: 'https://en.wikipedia.org/wiki/Prompt_injection' },
       ],
       mentions: [
         { '@type': 'SoftwareApplication', name: 'Langfuse', url: 'https://langfuse.com' },

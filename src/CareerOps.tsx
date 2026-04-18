@@ -70,7 +70,7 @@ export default function CareerOps({ lang = 'en' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://xueyifan.io/career-ops/og-career-ops.webp',
     publishedTime: '2026-03-17',
-    modifiedTime: '2026-03-17',
+    modifiedTime: '2026-04-18',
     articleTags: 'multi-agent,job search,Claude Code,ATS,batch processing,HITL,automation',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'career-ops',
@@ -91,6 +91,8 @@ export default function CareerOps({ lang = 'en' }: { lang?: Lang }) {
         h1={t.header.h1}
         subtitle={t.header.subtitle}
         date={t.header.date}
+        dateISO="2026-03-17"
+        dateModifiedISO="2026-04-18"
         readingTime={t.readingTime}
       />
 
