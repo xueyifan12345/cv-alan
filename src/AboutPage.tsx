@@ -43,7 +43,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
-      dateModified: '2026-04-08T00:00:00+02:00',
+      dateModified: '2026-04-18',
       mainEntity: {
         '@type': 'Person',
         '@id': 'https://xueyifan.io/#person',
@@ -71,8 +71,23 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
       },
     })
 
+    let faqScript = document.querySelector('script[data-about-faq-jsonld]') as HTMLScriptElement
+    if (!faqScript) { faqScript = document.createElement('script'); faqScript.type = 'application/ld+json'; faqScript.dataset.aboutFaqJsonld = ''; document.head.appendChild(faqScript) }
+    faqScript.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      '@id': `https://santifer.io/${t.slug}/#faq`,
+      inLanguage: lang,
+      mainEntity: t.faq.map(item => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    })
+
     return () => {
       script?.remove()
+      faqScript?.remove()
       document.querySelectorAll('link[hreflang]').forEach(el => el.remove())
     }
   }, [lang, t])
@@ -109,7 +124,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
         </header>
 
         {/* Manifesto */}
-        <blockquote className="mb-10 border-l-4 border-primary pl-6 pr-4 py-3 text-xl md:text-2xl italic font-display leading-snug text-foreground/90">
+        <blockquote cite="https://santifer.io/career-ops" className="mb-10 border-l-4 border-primary pl-6 pr-4 py-3 text-xl md:text-2xl italic font-display leading-snug text-foreground/90">
           {t.manifesto}
         </blockquote>
 
