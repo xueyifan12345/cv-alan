@@ -316,4 +316,317 @@ export const careerOpsContent = {
   },
   en: {
     slug: 'career-ops-system',
+    altSlug: 'career-ops',
+    readingTime: '18 min read',
+    seo: {
+      title: 'Career-Ops: The AI Agent System that Automated my Job Search',
+      description: 'Case study: A multi-agent system that evaluates roles across 10 dimensions, generates personalized resumes per job, and automates applications. 631 evaluations done.',
+    },
+    nav: {
+      breadcrumbHome: 'Home',
+      breadcrumbCurrent: 'Career-Ops',
+    },
+    header: {
+      kicker: 'Case Study: From Personal Project to 35.6K+ Stars',
+      h1: 'Career-Ops: How an AI Agent Automated my Path to Hired',
+      subtitle: 'I built a multi-agent system to automate my own job search. It worked: I’m now Head of Applied AI. Then I open-sourced it, and it went viral — 35.6K+ Stars on GitHub.',
+      badge: 'Mission Accomplished',
+      date: 'March 17, 2026',
+    },
+    heroMetrics: [
+      { value: '631', label: 'Evals' },
+      { value: '302', label: 'Applications' },
+      { value: '12', label: 'Modes' },
+      { value: '10', label: 'Dimensions' },
+      { value: '680', label: 'Deduplicated URLs' },
+    ],
+    tldr: 'A multi-agent system built with Claude Code that automates the job search: scores roles from A-F across 10 dimensions, generates targeted PDF resumes, fills forms via Playwright, and processes batches with parallel workers. Human-in-the-loop design: AI analyzes, I decide. Open sourced under MIT — 35.6K+ Stars, 1,300+ Discord members.',
+    manifesto: 'Companies use AI to filter candidates. I just enabled the candidate to use AI to filter companies.',
+    metaCallout: "Irony: I built a multi-agent system to find a multi-agent role. The system proved my skills better than any interview. And no, it’s not cheating: Career-Ops automates analysis, not decisions.",
+    closingCallback: "This system proves what an interview can't: in the AI age, what you build with AI is the only resume that matters.",
+    internalLinks: {
+      chatbot: {
+        text: 'Self-Healing Chatbot | Case Study',
+        href: '/self-healing-chatbot',
+      },
+      jacobo: {
+        text: 'AI Agent Jacobo | Case Study',
+        href: '/ai-agent-jacobo',
+      },
+      businessOs: {
+        text: 'Business OS | Case Study',
+        href: '/business-os-for-airtable',
+      },
+      pseo: {
+        text: 'Programmatic SEO | Case Study',
+        href: '/programmatic-seo',
+      },
+    },
+    sections: {
+      intro: {
+        hook: "I built an AI system to find a job. It worked — I'm now Head of Applied AI. Then I released it on GitHub and it exploded: 35.6K+ Stars, viral reaches, and coverage in France, China, and Korea. The first week of my search was manual. By the second week, I wasn't applying anymore — I was building Career-Ops.",
+        body: "After 631 evaluations, Career-Ops filters better than I do. Built as a multi-agent system, it reads job descriptions, scores them across 10 dimensions, and prepares personalized resumes. I review and decide, the AI does the heavy lifting. The system demonstrates the exact skills needed for the roles I was targetting — which didn't go unnoticed by employers.",
+      },
+      theProblem: {
+        heading: 'Why did I need to automate the search?',
+        body: 'Searching for a senior AI Engineer role is a full-time job. Every role requires reading the JD, mapping skills, tailoring the CV, writing a personalized blurb, and filling a 15-field form. If you target 10 roles a day, the math doesn’t add up.',
+        painPoints: [
+          { label: 'Repetitive reading.', detail: '70% of roles are not a fit. You usually find out after 800 words of JD.' },
+          { label: 'Generic resumes.', detail: 'Static PDFs don’t highlight the most relevant core competencies for a specific role.' },
+          { label: 'Manual form filling.', detail: 'Every platform asks the same questions in different formats. 15 copy-pastes per application.' },
+          { label: 'No tracking.', detail: 'Without a system, you forget where you applied. Double-applying or losing follow-ups.' },
+          { label: 'Zero feedback.', detail: 'Apply, wait, and never know if it was the fit, the resume, or the timing.' },
+          { label: 'Global market.', detail: 'AI is moving globally. Local referrals don’t scale when applying to 6 different countries.' },
+        ],
+        punchline: 'It’s not hard, it’s just repetitive. And repetitive work should be automated.',
+      },
+      architecture: {
+        heading: 'How does a multi-agent system work?',
+        body: 'Career-Ops isn’t a script or an auto-apply bot. It’s a multi-agent system with 12 modes, each being a Claude Code skill file with its own context, rules, and tools. An AI agent that reasons about the domain and executes the right action.',
+        whyModes: {
+          heading: 'Why Modes instead of one big prompt',
+          items: [
+            { label: 'Clean context.', detail: 'Each mode only loads what it needs. auto-pipeline doesn’t load contact rules. apply doesn’t load scoring logic.' },
+            { label: 'Testability.', detail: 'Each mode can be tested in isolation. Changing PDF logic never breaks the evaluation.' },
+            { label: 'Independent evolution.', detail: 'Adding new modes doesn’t break existing ones. training was added 3 weeks after the first deploy.' },
+          ],
+        },
+        modes: [
+          { name: 'auto-pipeline', desc: 'The full pipeline: extract JD, score A-F, generate report, PDF, and track.' },
+          { name: 'oferta', desc: 'Single job evaluation with 6 modules: Summary, CV Match, Leveling, Comp, Personalized, and Interview.' },
+          { name: 'ofertas', desc: 'Comparison and ranking of multiple roles.' },
+          { name: 'pdf', desc: 'Targeted, ATS-optimized resume injected with JD keywords and reranked by relevance.' },
+          { name: 'pipeline', desc: 'Batch processing of URLs from your inbox.' },
+          { name: 'scan', desc: 'The hunter: browses job portals and target company career pages. Many jobs never hit aggregators.' },
+          { name: 'batch', desc: 'Parallel processing with Conductor + Workers. Handles 122 URLs in the queue at once.' },
+          { name: 'apply', desc: 'Interactive form filling with Playwright. Reads the page, retrieves the eval, and generates answers.' },
+          { name: 'contacto', desc: 'LinkedIn outreach assistant.' },
+          { name: 'deep', desc: 'Deep research into a company.' },
+          { name: 'tracker', desc: 'Dashboard for application status.' },
+          { name: 'training', desc: 'Evaluates courses and certs based on your North Star goal.' },
+        ],
+      },
+      scoring: {
+        heading: 'How does Career-Ops score every job?',
+        body: 'Every role goes through an evaluation framework with 10 weighted dimensions. The output is a numeric score (1-5) and an A-F grade. Not all dimensions are equal — Job Match and Skill Alignment are "knock-out" filters: if they fail, the final grade drops significantly.',
+        dimensions: {
+          headers: ['Dimension', 'Measurement', 'Weight'],
+          rows: [
+            ['Job Match', 'Alignment of the role with CV core competencies', 'Knock-out'],
+            ['Skill Alignment', 'Tech stack overlap', 'Knock-out'],
+            ['Seniority', 'Challenge level and room for negotiation', 'High'],
+            ['Compensation', 'Gap between market rate and target', 'High'],
+            ['Geography', 'Feasibility of remote/hybrid/onsite', 'Medium'],
+            ['Company Stage', 'Fit for Startup/Growth/Big Tech', 'Medium'],
+            ['Product Market Fit', 'Resonance with the problem domain', 'Medium'],
+            ['Growth Trajectory', 'Room for career advancement', 'Medium'],
+            ['Interview Likelihood', 'Probability of getting a callback', 'High'],
+            ['Timeline', 'Speed of hiring and urgency', 'Low'],
+          ],
+        },
+        distribution: {
+          heading: 'Score Distribution',
+          items: [
+            { value: '21', label: 'Score >= 4.5 (A)' },
+            { value: '52', label: 'Score 4.0-4.4 (B)' },
+            { value: '71', label: 'Score 3.0-3.9 (C)' },
+            { value: '51', label: 'Score < 3.0 (D-F)' },
+          ],
+        },
+        callout: '74% of evaluated roles scored below 4.0. Without the system, I would have wasted hours reading JDs that were not a fit.',
+      },
+      pipeline: {
+        heading: 'From URL to Resume: What happens in between?',
+        body: 'auto-pipeline is the core mode. Input a URL, output an eval report, a personalized PDF, and a tracking entry. Zero manual intervention until final review.',
+        steps: [
+          { label: 'Extract JD.', detail: 'Playwright navigates to the URL and extracts the structured content of the role.' },
+          { label: '10D Evaluation.', detail: 'Claude reads the JD + Resume + Portfolio and scores across 10 dimensions.' },
+          { label: 'Generate Report.', detail: 'Markdown with 6 modules: Exec Summary, CV Match, Leveling, Comp, Personalization, and Interview Likelihood.' },
+          { label: 'Generate PDF.', detail: 'HTML template + keyword injection + adaptive framework. Rendered via Puppeteer.' },
+          { label: 'Log Tracking.', detail: 'TSV entry with Company, Role, Score, Grade, URL. Auto-merged by Node scripts.' },
+          { label: 'Deduplicate.', detail: 'Checks scan-history.tsv (680 URLs) and applications.md. Zero double evals.' },
+        ],
+        batch: {
+          heading: 'Batch Processing',
+          body: 'For high volumes, batch starts a Conductor to orchestrate parallel workers. Each worker is an independent Claude Code process with 200K context. Conductor manages the queue, tracks progress, and merges results.',
+          metrics: [
+            { value: '122', label: 'URLs in queue' },
+            { value: '200K', label: 'Context per worker' },
+            { value: '2x', label: 'Retries on failure' },
+          ],
+          details: 'Fault tolerance: a single worker failure doesn’t block the rest. Lockfiles prevent double execution. Batch supports resume — reads state and skips completed items.',
+        },
+      },
+      pdf: {
+        heading: 'How Career-Ops generates a personalized resume for every role?',
+        body: 'Generic resumes fail. Career-Ops acts as an AI resume builder that generates a different ATS-optimized resume for every job, injecting JD keywords and reranking experience by relevance. It’s not a template: it’s built from real resume core competencies.',
+        steps: [
+          { label: 'Extract 15-20 keywords from JD.', detail: 'Keywords appear in the summary, first bullet of every role, and skills section.' },
+          { label: 'Language detection.', detail: 'English JD yields English resume. Chinese JD yields Chinese resume.' },
+          { label: 'Geography detection.', detail: 'Letter format for US companies. A4 for Europe.' },
+          { label: 'Archetype detection.', detail: '6 archetypes for North Star goals. Summary adapts to the profile.' },
+          { label: 'Featured projects.', detail: 'Top 3-4 by relevance. Jacobo for Agent roles. Business OS for ERP/Automation.' },
+          { label: 'Rerank bullets.', detail: 'Most relevant experience moves up, the rest moves down — but stays visible.' },
+          { label: 'Render PDF.', detail: 'Puppeteer converts HTML to PDF. Fonts are self-hosted, single-column ATS-safe format.' },
+        ],
+        archetypes: {
+          heading: 'The 6 Archetypes',
+          headers: ['Archetype', 'Main Core Competency'],
+          rows: [
+            ['AI Platform / LLMOps', 'Self-Healing Chatbot (71 evals, closed-loop system)', '/self-healing-chatbot'],
+            ['Agentic Workflows', 'Jacobo (4 agents, 80h/mo automated)', '/ai-agent-jacobo'],
+            ['Technical AI PM', 'Business OS (2,100 fields, 50 automations)', '/business-os-for-airtable'],
+            ['AI Solutions Architect', 'Programmatic SEO (4,730 pages, 10.8x traffic)', '/programmatic-seo'],
+            ['AI FDE', 'Jacobo (Sold, running in production)', '/ai-agent-jacobo'],
+            ['AI Transformation Lead', '4+ years of experience (Walmart, Sagent)', ''],
+          ],
+        },
+        callout: 'Same experience. 6 different framings. All real — keywords are rephrased, never faked.',
+      },
+      beforeAfter: {
+        heading: 'Before and After',
+        headers: ['Dimension', 'Manual', 'Career-Ops'],
+        rows: [
+          ['Evaluation', 'Read JD, mental mapping', '10D auto-scoring, A-F grades'],
+          ['Resume', 'Generic PDF', 'Personalized PDF, ATS-optimized'],
+          ['Application', 'Manual filling', 'Playwright auto-fill'],
+          ['Tracking', 'Sheet or none', 'TSV + auto-deduplication'],
+          ['Discovery', 'LinkedIn alerts', 'Scanner: portals + target company pages'],
+          ['Volume', 'One by one', '122 URLs parallel batch'],
+          ['Deduplication', 'Memory-based', '680 URLs auto-deduplicated'],
+        ],
+      },
+      results: {
+        heading: 'What were the results of Career-Ops?',
+        body: 'The only result that matters: I got the Offer. I am now Head of Applied AI. Career-Ops evaluated 631 roles, generated 354 personalized PDFs, and filtered the noise so I could focus on the real opportunities.',
+        metrics: [
+          { value: '631', label: 'Reports generated' },
+          { value: '35K+', label: 'GitHub Stars' },
+          { value: '354', label: 'PDFs generated' },
+          { value: '2,600+', label: 'r/ClaudeAI upvotes' },
+        ],
+        aftermath: {
+          heading: 'What happened after?',
+          body: "When I didn't need Career-Ops anymore, I posted it on GitHub. In one week, it went from a private repo to the trending list — 35.6K+ Stars, 5K+ Forks, and coverage by creators in France, China, and Korea who I had never met. A community of 1,300+ formed on Discord helping each other configure and adapt the system. The project ended up proving my skills better than any interview process could.",
+          highlights: [
+            { value: '35K+', label: 'GitHub Stars in 1 week' },
+            { value: '5K+', label: 'Forks' },
+            { value: '4', label: 'Languages (EN, FR, ZH, KO)' },
+            { value: '6', label: 'Countries covered' },
+          ],
+        },
+      },
+      stack: {
+        heading: 'Tech Stack',
+        items: [
+          { name: 'Claude Code', role: 'LLM Agent: reasoning, evaluation, content generation' },
+          { name: 'Playwright', role: 'Browser automation: portal scanning and form filling' },
+          { name: 'Puppeteer', role: 'Rendering PDFs from HTML templates' },
+          { name: 'Node.js', role: 'Utility scripts: tracking merge, CV sync check, PDF generation' },
+          { name: 'tmux', role: 'Parallel sessions: Conductor + Workers in batch processing' },
+        ],
+      },
+      lessons: {
+        heading: 'Lessons Learned',
+        items: [
+          {
+            title: 'Automate analysis, not decisions',
+            detail: 'Career-Ops scored 631 roles. I decided where to spend my time. HITL (Human-in-the-loop) isn’t a limitation, it’s a design choice. AI filters noise, humans provide judgment.'
+          },
+          {
+            title: 'Modes beat long prompts',
+            detail: '12 modes with clean context are better than one 10,000 token system prompt. Each mode only loads what it needs. Smaller context means better decisions.'
+          },
+          {
+            title: 'Deduplication is more valuable than scoring',
+            detail: '680 deduplicated URLs means 680 double evaluations saved. Deduplication saves more time than any scoring optimization.'
+          },
+          {
+            title: 'Resumes are arguments, not documents',
+            detail: 'Generic PDFs don’t convince anyone. A resume that reranks experience by relevance, injects the right keywords, and adjusts the archetype is a resume that converts.'
+          },
+          {
+            title: 'Batch beats sequential every time',
+            detail: 'Batch with parallel workers processed 122 URLs while I was doing something else. The investment in parallel orchestration paid for itself on the first run.'
+          },
+          {
+            title: 'The system is the portfolio',
+            detail: 'Building a multi-agent system to find a multi-agent role is the ultimate proof of skill. I don’t have to explain I can do it — I’m using it.'
+          },
+          {
+            title: 'Open source when you don’t need it anymore',
+            detail: "While I was using Career-Ops, it was private. When I got the job, I released it. A week later it had 35.6K Stars. Lesson: the best time to open source is when the value is already proven in a real-world production environment."
+          },
+          {
+            title: 'Why I stay MIT',
+            detail: 'MIT License. No hooks, no upsell inside the CLI, no gated features. If it helps you, use it. If you want to support maintenance or join the community, great. But the tool doesn’t depend on it.'
+          },
+        ],
+      },
+      cta: {
+        sidebarLabel: 'Try it',
+        heading: 'It’s right here',
+        body: 'Career-Ops is open source under MIT. Clone it, fork it, break it — it’s yours.',
+        ctaLabel: 'Try it on GitHub',
+        ctaHref: 'https://github.com/xueyifan/career-ops',
+        communityHeading: 'Questions? Ask the community',
+        communityBody: '1,300+ developers are using Career-Ops and sharing tips, templates, and configs on Discord.',
+        communityLabel: 'Join Discord',
+        communityHref: 'https://discord.gg/8pRpHETxa4',
+        supportHeading: 'If it saves you time',
+        supportRuleFree: 'If you are actively looking for a job, focus on the search — the tool is yours, no strings attached.',
+        supportRulePaid: 'If you already landed a role and the system saved you hours of work, a coffee keeps it alive.',
+        supportFootnote: '100% of funds go to API costs and infrastructure.',
+        supportBmcLabel: 'Buy me a coffee',
+        supportBmcHref: 'https://buymeacoffee.com/xueyifan',
+      },
+    },
+    faq: {
+      heading: 'Frequently Asked Questions',
+      items: [
+        {
+          q: 'Is this cheating?',
+          a: 'Career-Ops automates analysis, not decisions. I read every report before applying and review every PDF before sending. It’s the same philosophy as a CRM: the system organizes, I decide.',
+        },
+        {
+          q: 'Why Claude Code instead of a scripted pipeline?',
+          a: 'Scripts can’t reason. Career-Ops adjusts scoring based on company context, rephrases keywords without lying, and generates narrative reports instead of just filling templates.',
+        },
+        {
+          q: 'How much does it cost to run?',
+          a: 'Zero marginal cost per eval. Career-Ops runs on my Claude Max 20x plan ($200/mo), which I use for everything: portfolio, chatbot, articles, and Career-Ops. 631 evals later, no extra bill.',
+        },
+        {
+          q: 'Does apply fill forms automatically?',
+          a: 'It uses Playwright to read the page, retrieve cached eval results, and generate answers consistent with the scoring. I review before hitting submit — always.',
+        },
+        {
+          q: 'What happens when the scanner finds a duplicate job?',
+          a: 'scan-history.tsv stores 680 URLs already seen. Matching is done by exact URL and normalized Company + Role in applications.md. Zero double evals.',
+        },
+        {
+          q: 'Can I fork it?',
+          a: 'Yes — the code is public on GitHub (github.com/xueyifan/career-ops). Needs Claude Code with tool access. Skill files define the logic for every mode. 35K+ people have already viewed, forked, or adapted it.',
+        },
+        {
+          q: 'How do I use Career-Ops?',
+          a: "Career-Ops is a local tool that runs from your terminal via Claude Code. Clone the repo, configure your resume and preferences, and launch the modes as needed: auto-pipeline for end-to-end evaluation of a job, scan to discover roles in portals, batch to process multiple URLs in parallel, or pdf to generate a personalized resume. Everything runs on your machine — your resume and personal data never leave your computer. If you need help, there's a community of 1,000+ people on Discord: discord.gg/8pRpHETxa4",
+        },
+        {
+          q: 'What do I need to run Career-Ops?',
+          a: 'A Claude Code plan with tool access (Claude Max or Claude Pro). Playwright for web navigation. Node.js for tracking merge and Puppeteer for PDF generation. A working directory with your resume in Markdown and your search preferences. No servers, databases, or external APIs needed — it all runs locally. Discord community (discord.gg/8pRpHETxa4) can assist with configuration.',
+        },
+        {
+          q: 'Which AI does Career-Ops use?',
+          a: 'Career-Ops is not a chatbot or an API wrapper. It is a multi-agent system where Claude Code acts as the brain: reasoning about every job, evaluating its fit against your profile across 10 dimensions, and making filtering decisions. Each of the 12 modes is a skill file with its own context and rules. Web navigation uses Playwright, PDFs use Puppeteer, and batch processing launches parallel workers in tmux. No fine-tuning or custom models — just standard Claude with very precise context.',
+        },
+        {
+          q: 'Who created Career-Ops?',
+          a: 'Me, Yifan Xue (xueyifan). I built it for my own AI job search after 4+ years at companies like Walmart and Sagent. The system evaluated 631 roles and helped me land my current role as Head of Applied AI. I open-sourced it when I didn’t need it anymore. Within a week it had 35.6K+ GitHub Stars. Currently the Discord community is over 1,300 people: discord.gg/8pRpHETxa4',
+        },
+      ],
+    },
+  },
+} as const;
+
 ...
