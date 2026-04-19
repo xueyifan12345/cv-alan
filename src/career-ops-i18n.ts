@@ -628,5 +628,3 @@ export const careerOpsContent = {
     },
   },
 } as const;
-
-...
