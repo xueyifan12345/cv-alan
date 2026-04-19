@@ -45,7 +45,7 @@ export { H2 as AnchorHeading } from './content-types'
 // Layout shells
 // ---------------------------------------------------------------------------
 
-export function ArticleLayout({ lang, children }: { lang?: 'es' | 'en'; children: React.ReactNode }) {
+export function ArticleLayout({ lang, children }: { lang?: 'es' | 'en' | 'zh'; children: React.ReactNode }) {
   useEffect(() => {
     if (lang) document.documentElement.lang = lang
   }, [lang])
@@ -80,15 +80,18 @@ interface ArticleHeaderProps {
   authorUrl?: string
   authorBio?: string
   avatarSrc?: string
-  lang?: 'es' | 'en'
+  lang?: 'es' | 'en' | 'zh'
   editorId?: string
 }
 
 const MONTHS_ES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']
 const MONTHS_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-function formatDateHuman(iso: string, lang: 'es' | 'en'): string {
+const MONTHS_ZH = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+
+function formatDateHuman(iso: string, lang: 'es' | 'en' | 'zh' | 'zh'): string {
   const [y, m, d] = iso.split('-').map(Number)
   if (!y || !m || !d) return iso
+  if (lang === 'zh') return `${y}年${m}月${d}日`
   const month = (lang === 'es' ? MONTHS_ES : MONTHS_EN)[m - 1]
   return lang === 'es' ? `${d} ${month} ${y}` : `${month} ${d}, ${y}`
 }
@@ -167,7 +170,7 @@ export function ArticleHeader({
 // ---------------------------------------------------------------------------
 
 interface ArticleFooterProps {
-  lang: 'es' | 'en'
+  lang: 'es' | 'en' | 'zh' | 'zh'
   utmCampaign: string
   editorId?: string
 }
@@ -184,6 +187,12 @@ const FOOTER_I18N = {
     bio: 'Built and sold a 16-year business in 2025. Creator of Career-Ops. Now bringing that same systems thinking to enterprise AI.',
     fellowAt: 'Teaching Fellow at',
     copyright: 'All rights reserved.',
+  },
+  zh: {
+    role: '应用 AI 负责人 · Career-Ops 创建者',
+    bio: '在 2025 年建立并出售了一家拥有 16 年历史的业务。Career-Ops 的创建者。现在将同样的系统思维应用到企业 AI 领域。',
+    fellowAt: 'Teaching Fellow 于',
+    copyright: '版权所有。',
   },
 } as const
 
@@ -594,7 +603,7 @@ interface GitHubRepoBadgeProps {
   repo: string
   stars: string
   forks: string
-  lang: 'es' | 'en'
+  lang: 'es' | 'en' | 'zh'
 }
 
 export function GitHubRepoBadge({ repo, stars, forks, lang }: GitHubRepoBadgeProps) {

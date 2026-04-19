@@ -40,7 +40,7 @@ interface Message {
 }
 
 interface FloatingChatProps {
-  lang: 'es' | 'en';
+  lang: 'es' | 'en' | 'zh';
 }
 
 const PromptIcon = ({ icon }: { icon: string }) => {
@@ -127,7 +127,7 @@ function saveSession(messages: Message[], sessionId: string) {
 }
 
 export default function FloatingChat({ lang }: FloatingChatProps) {
-  const t = translations[lang].chat;
+  const t = translations[lang as 'zh'].chat;
   const v = t.voice;
   const [isOpen, setIsOpen] = useState(() => window.location.hash === '#chat');
   const [immersive, setImmersive] = useState(false);
