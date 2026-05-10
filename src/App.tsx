@@ -74,7 +74,7 @@ const BeamPill = ({ children }: { children: ReactNode }) => (
 
 const StorySection = ({ t }: { t: any }) => {
   return (
-    <section className="py-16 md:py-24 overflow-hidden relative">
+    <section id="summary" className="py-16 md:py-24 overflow-hidden relative">
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7">
@@ -121,6 +121,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
   const t = translations[lang]
   const [hydrated, setHydrated] = useState(false)
   const [roleIndex, setRoleIndex] = useState(0)
+  const [activeSection, setActiveSection] = useState('summary')
 
   useEffect(() => {
     setHydrated(true)
@@ -129,6 +130,40 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
     }, 3000)
     return () => clearInterval(interval)
   }, [t.greetingRoles.length])
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+    const sections = ['summary', 'experience', 'projects', 'education', 'tech', 'contact']
+    sections.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const navItems = [
+    { id: 'summary', label: lang === 'zh' ? '总结' : 'Summary' },
+    { id: 'experience', label: lang === 'zh' ? '经历' : 'Experience' },
+    { id: 'projects', label: lang === 'zh' ? '项目' : 'Projects' },
+    { id: 'education', label: lang === 'zh' ? '教育' : 'Education' },
+    { id: 'tech', label: lang === 'zh' ? '技术' : 'Tech Stack' },
+    { id: 'contact', label: lang === 'zh' ? '联系' : 'Contact' },
+  ]
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary/20 overflow-x-hidden">
@@ -196,6 +231,29 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
               </div>
             </motion.div>
           </div>
+
+          {/* Nav Row */}
+          <motion.nav
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            aria-label="Section navigation"
+            className="mt-16 md:mt-24 flex flex-wrap justify-center gap-3"
+          >
+            {navItems.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={`px-4 py-2 rounded-full border text-sm font-medium transition-all duration-150 ${
+                  activeSection === item.id
+                    ? 'border-primary text-primary bg-primary/5'
+                    : 'border-border bg-muted/50 text-muted-foreground hover:border-primary hover:text-primary'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </motion.nav>
         </div>
       </header>
 
@@ -217,7 +275,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
             {/* Sagent */}
             <AnimatedSection delay={0.1}>
               <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12">
-                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
+                <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
                     <h3 className="text-2xl font-bold">{t.experience.sagent.company}</h3>
@@ -243,7 +301,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
             {/* Walmart */}
             <AnimatedSection delay={0.2}>
               <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4">
-                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-border ring-4 ring-background" />
+                <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-border ring-4 ring-background" />
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
                     <h3 className="text-2xl font-bold">{t.experience.walmart.company}</h3>
@@ -269,11 +327,64 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
         </div>
       </section>
 
-      {/* Projects section hidden
+      {/* Projects */}
       <section id="projects" className="py-16 md:py-24">
-        ...
+        <div className="max-w-5xl mx-auto px-6">
+          <AnimatedSection>
+            <h2 className="font-display text-2xl font-semibold mb-12 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <FolderGit2 className="w-5 h-5 text-primary" />
+              </div>
+              {t.projects.title}
+            </h2>
+          </AnimatedSection>
+
+          <div className="space-y-12">
+            {t.projects.items.map((project: any, i: number) => (
+              <AnimatedSection key={i} delay={0.1 * (i + 1)}>
+                <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12 last:pb-0">
+                  <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
+                  <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-foreground">{project.title}</h3>
+                      <p className="text-primary font-medium">{project.tech}</p>
+                    </div>
+                    <div className="text-right flex flex-col items-end gap-1">
+                      <a 
+                        href={project.demo} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-sm font-bold text-primary hover:text-primary/80 flex items-center gap-1 transition-colors"
+                      >
+                        Live Demo <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground mb-4">{project.desc}</p>
+                  <ul className="space-y-2">
+                    {project.highlights.map((h: string, j: number) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <AnimatedSection delay={0.4}>
+            <div className="mt-16 p-6 rounded-2xl bg-muted/30 border border-border text-center">
+              <p className="text-sm text-muted-foreground italic">
+                {lang === 'zh' 
+                  ? '利用 AI 配对编程（Gemini CLI, Claude）加速脚手架搭建和调试，同时主导架构、安全和产品决策。' 
+                  : 'Leveraged AI pair-programming (Gemini CLI, Claude) to accelerate scaffolding and debugging while owning architecture, security, and product decisions.'}
+              </p>
+            </div>
+          </AnimatedSection>
+        </div>
       </section>
-      */}
 
       {/* Education */}
       <section id="education" className="py-16 md:py-24 bg-muted/30">
