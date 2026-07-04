@@ -43,7 +43,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
-      dateModified: '2026-04-18',
+      dateModified: '2026-06-29',
       mainEntity: {
         '@type': 'Person',
         '@id': 'https://xueyifan.io/#person',
@@ -52,12 +52,14 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
         url: 'https://xueyifan.io',
         image: 'https://xueyifan.io/foto-avatar.png',
         email: 'yifanxue.sde@gmail.com',
-        jobTitle: ['Full-Stack Software Engineer', 'Front-End Architect'],
+        jobTitle: ['Frontend Software Engineer', 'Design Systems Engineer', 'React & TypeScript Specialist'],
         knowsAbout: [
           { '@type': 'Thing', name: 'React', url: 'https://en.wikipedia.org/wiki/React_(software)' },
           { '@type': 'Thing', name: 'TypeScript', url: 'https://en.wikipedia.org/wiki/TypeScript' },
+          { '@type': 'Thing', name: 'Next.js', url: 'https://en.wikipedia.org/wiki/Next.js' },
           { '@type': 'Thing', name: 'Node.js', url: 'https://en.wikipedia.org/wiki/Node.js' },
           { '@type': 'Thing', name: 'GraphQL', url: 'https://en.wikipedia.org/wiki/GraphQL' },
+          { '@type': 'Thing', name: 'Web accessibility', url: 'https://en.wikipedia.org/wiki/Web_accessibility' },
         ],
         alumniOf: [
           { '@type': 'EducationalOrganization', name: 'Tulane University', url: 'https://tulane.edu' },
@@ -67,7 +69,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
           'https://www.linkedin.com/in/xueyifan',
           'https://github.com/xueyifan',
         ],
-        address: { '@type': 'PostalAddress', addressLocality: 'Dallas, TX', addressCountry: 'US' },
+        address: { '@type': 'PostalAddress', addressLocality: 'Lansing, MI', addressCountry: 'US' },
       },
     })
 
@@ -93,8 +95,8 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
   }, [lang, t])
 
   return (
-    <div className="min-h-screen bg-background text-foreground bg-[length:24px_24px] [background-image:radial-gradient(circle,hsl(var(--dot-grid))_1px,transparent_1px)]">
-      <main className="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+    <div className="min-h-screen portfolio-shell text-foreground">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 md:py-20">
 
         {/* Header */}
         <header className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-10">
@@ -124,12 +126,12 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
         </header>
 
         {/* Manifesto */}
-        <blockquote cite="https://santifer.io/career-ops" className="mb-10 border-l-4 border-primary pl-6 pr-4 py-3 text-xl md:text-2xl italic font-display leading-snug text-foreground/90">
+        <blockquote cite="https://santifer.io/career-ops" className="portfolio-card mb-10 rounded-2xl border-l-4 border-primary px-6 py-5 text-xl md:text-2xl italic font-display leading-snug text-foreground/90">
           {t.manifesto}
         </blockquote>
 
         {/* Bio */}
-        <section className="mb-10">
+        <section className="portfolio-card rounded-2xl p-5 sm:p-6 mb-10">
           {t.bio.map((paragraph, i) => (
             <p key={i} className="text-base text-muted-foreground leading-relaxed mb-4">
               {paragraph}
@@ -159,7 +161,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
           </h2>
           <div className="space-y-3">
             {t.timeline.map((item) => (
-              <div key={item.period} className="flex gap-4 p-3 rounded-lg bg-card border border-border">
+              <div key={item.period} className="portfolio-card portfolio-card-hover flex gap-4 p-3 rounded-lg">
                 <span className="text-xs font-mono text-primary whitespace-nowrap pt-0.5">{item.period}</span>
                 <div>
                   <p className="font-medium text-foreground text-sm">{item.role}</p>
@@ -181,7 +183,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
               <Link
                 key={project.name}
                 to={project.href}
-                className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:border-primary/30 hover:bg-primary/5 transition-all group"
+                className="portfolio-card portfolio-card-hover flex items-center justify-between p-3 rounded-lg transition-all group"
               >
                 <div>
                   <p className="font-medium text-foreground text-sm group-hover:text-primary transition-colors">{project.name}</p>
@@ -219,7 +221,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:border-primary/30 transition-all group"
+                className="portfolio-card portfolio-card-hover flex items-center justify-between p-3 rounded-lg transition-all group"
               >
                 <div>
                   <p className="font-medium text-foreground text-sm group-hover:text-primary transition-colors">{item.title}</p>
@@ -239,7 +241,7 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
           </h2>
           <div className="space-y-4">
             {t.faq.map((item) => (
-              <div key={item.q} className="p-4 rounded-lg bg-card border border-border">
+              <div key={item.q} className="portfolio-card p-4 rounded-lg">
                 <p className="font-medium text-foreground text-sm mb-2">{item.q}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.a}</p>
               </div>

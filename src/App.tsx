@@ -1,50 +1,32 @@
-import { StrictMode, lazy, Suspense, useState, useEffect, useRef, Component, type ReactNode, type ComponentType } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, useLocation, Link, useParams } from 'react-router-dom'
-import { Analytics } from '@vercel/analytics/react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Code,
-  Globe,
+  MapPin,
   Briefcase,
   Mail,
+  Phone,
   ExternalLink,
-  ChevronRight,
-  Zap,
-  Star,
-  GitFork,
   MessageSquare,
-  Search,
   Bot,
   Layout,
   Database,
   ArrowRight,
   Sparkles,
-  Lock,
-  Layers,
-  Repeat,
-  RefreshCcw,
   ShieldCheck,
   Cpu,
-  BarChart3,
-  Network,
-  Calendar,
-  Percent,
-  Package,
-  UserCheck,
-  Timer,
-  FileText,
-  Image,
-  TrendingUp,
-  GitBranch,
-  Github,
   GraduationCap,
   FolderGit2
 } from 'lucide-react'
 
 import './index.css'
 import { translations } from './i18n'
-import GlobalNav from './GlobalNav'
+
+type Translation = typeof translations.en
+type SummaryCard = Translation['summary']['cards'][number]
+type TechCategory = Translation['techStack']['categories'][number]
+type ProjectItem = Translation['projects']['items'][number]
+type EducationItem = Translation['education']['items'][number]
 
 // UI Components
 const LinkedInLogo = ({ className }: { className?: string }) => (
@@ -65,14 +47,14 @@ const AnimatedSection = ({ children, delay = 0, className = "" }: { children: Re
   </motion.div>
 )
 
-const BeamPill = ({ children }: { children: ReactNode }) => (
-  <span className="relative inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 overflow-hidden group">
-    <span className="relative z-10">{children}</span>
-    <span className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-x-full group-hover:animate-beam" />
-  </span>
-)
+const techIcons = [Layout, Code, Database, ShieldCheck, Bot]
 
-const StorySection = ({ t }: { t: any }) => {
+const openChat = () => {
+  window.location.hash = 'chat'
+  window.dispatchEvent(new CustomEvent('openChat'))
+}
+
+const StorySection = ({ t }: { t: Translation }) => {
   return (
     <section id="summary" className="py-16 md:py-24 overflow-hidden relative">
       <div className="max-w-5xl mx-auto px-6 relative z-10">
@@ -101,7 +83,7 @@ const StorySection = ({ t }: { t: any }) => {
           </div>
           <div className="lg:col-span-5">
             <div className="grid gap-4">
-              {t.summary.cards.map((card: any, i: number) => (
+              {t.summary.cards.map((card: SummaryCard, i: number) => (
                 <AnimatedSection key={i} delay={0.1 * (i + 1)}>
                   <div className="p-5 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all group">
                     <h3 className="font-bold mb-1 group-hover:text-primary transition-colors">{card.title}</h3>
@@ -119,12 +101,10 @@ const StorySection = ({ t }: { t: any }) => {
 
 const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
   const t = translations[lang]
-  const [hydrated, setHydrated] = useState(false)
   const [roleIndex, setRoleIndex] = useState(0)
   const [activeSection, setActiveSection] = useState('summary')
 
   useEffect(() => {
-    setHydrated(true)
     const interval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % t.greetingRoles.length)
     }, 3000)
@@ -147,7 +127,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
     }
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
-    const sections = ['summary', 'experience', 'projects', 'education', 'tech', 'contact']
+    const sections = ['summary', 'experience', 'projects', 'education', 'contact']
     sections.forEach((id) => {
       const el = document.getElementById(id)
       if (el) observer.observe(el)
@@ -161,75 +141,148 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
     { id: 'experience', label: lang === 'zh' ? '经历' : 'Experience' },
     { id: 'projects', label: lang === 'zh' ? '项目' : 'Projects' },
     { id: 'education', label: lang === 'zh' ? '教育' : 'Education' },
-    { id: 'tech', label: lang === 'zh' ? '技术' : 'Tech Stack' },
+    // Tech Stack section is intentionally hidden for now because the hero already has Technical Arsenal.
+    // { id: 'tech', label: lang === 'zh' ? '技术' : 'Tech Stack' },
     { id: 'contact', label: lang === 'zh' ? '联系' : 'Contact' },
   ]
 
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-primary/20 overflow-x-hidden">
-      <GlobalNav />
-
+    <main className="min-h-screen portfolio-shell text-foreground selection:bg-primary/20 overflow-x-hidden">
       {/* Hero */}
-      <header className="relative pt-32 pb-16 md:pt-48 md:pb-32 overflow-hidden">
-        {/* Background effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl aspect-square bg-[radial-gradient(circle_at_center,hsl(var(--primary)/0.08)_0%,transparent_70%)]" />
-          <div className="absolute top-[20%] right-[-10%] w-[40%] aspect-square bg-[radial-gradient(circle_at_center,hsl(var(--accent)/0.05)_0%,transparent_70%)]" />
-        </div>
-
-        <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* Avatar */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, type: 'spring' }}
-              className="relative w-32 h-32 md:w-48 md:h-48 shrink-0"
+      <header className="relative pt-28 pb-14 md:pt-36 md:pb-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 auto-rows-min">
+            <motion.section
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:col-span-2 lg:row-span-4 min-h-[430px] flex flex-col justify-between"
             >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-accent blur-2xl opacity-20 animate-pulse" />
-              <div className="relative w-full h-full rounded-full border-2 border-border overflow-hidden bg-muted p-1">
-                <img src="/foto-avatar.png" alt="Yifan Xue" className="w-full h-full rounded-full object-cover" />
-              </div>
-            </motion.div>
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-muted p-0.5">
+                    <img src="/foto-avatar.png" alt="Yifan Xue" className="h-full w-full rounded-full object-cover" />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-2 text-xs font-mono text-success">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
+                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
+                      </span>
+                      {t.hero.availability}
+                    </div>
+                  </div>
+                </div>
 
-            {/* Title & Roles */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
+                <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-5">
+                  Yifan Xue
+                </h1>
+                <div className="min-h-[2.5rem] mb-5">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={roleIndex}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.24 }}
+                      className="text-xl sm:text-2xl text-muted-foreground"
+                    >
+                      {t.greetingRoles[roleIndex]}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+                <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+                  {t.hero.summaryPrefix} <strong className="text-foreground">{t.hero.summaryStrong}</strong> {t.hero.summarySuffix}
+                </p>
+              </div>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <a href="#projects" className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition hover:opacity-90">
+                  {t.hero.primaryCta}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+                <a href={`mailto:${t.email}`} className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-foreground transition hover:border-primary/50 hover:bg-primary/5">
+                  <Mail className="h-4 w-4" />
+                  {t.hero.secondaryCta}
+                </a>
+              </div>
+            </motion.section>
+
+            <motion.aside
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08 }}
+              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-5 flex items-center gap-4"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-foreground/5">
+                <MapPin className="h-5 w-5 text-foreground" />
+              </div>
+              <div>
+                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{t.hero.locationLabel}</p>
+                <p className="font-bold text-foreground">{t.hero.city}</p>
+                <p className="text-xs text-muted-foreground">{t.hero.workMode}</p>
+              </div>
+            </motion.aside>
+
+            <motion.aside
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.14 }}
+              className="portfolio-card rounded-2xl md:rounded-3xl p-6 lg:row-span-5"
+            >
+              <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
+                <Code className="h-5 w-5 text-primary" />
+                <h2 className="font-bold">{t.hero.techTitle}</h2>
+              </div>
+              <div className="space-y-6">
+                {t.techStack.categories.map((cat: TechCategory, i: number) => {
+                  const Icon = techIcons[i] ?? Cpu
+                  return (
+                    <div key={cat.name}>
+                      <div className="mb-2 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                        <Icon className="h-4 w-4" />
+                        {cat.name}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {cat.items.map((item: string) => (
+                          <span key={item} className="skill-chip px-2.5 py-1 text-xs">
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </motion.aside>
+
+            <motion.section
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-center md:text-left flex-1"
+              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 lg:col-span-2 lg:min-h-[420px] flex"
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border border-border text-xs font-medium mb-4">
-                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                {t.location}
+              <div className="flex flex-1 flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+                <div className="max-w-xl">
+                  <h2 className="font-display text-2xl font-bold text-foreground">{t.hero.connectTitle}</h2>
+                  <p className="mt-2 text-base text-muted-foreground">{t.hero.connectText}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <a href="tel:+18059183669" aria-label="Call Yifan" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                    <Phone className="h-6 w-6" />
+                  </a>
+                  <a href={`mailto:${t.email}`} aria-label={t.hero.emailCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                    <Mail className="h-6 w-6" />
+                  </a>
+                  <a href="https://linkedin.com/in/xueyifan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                    <LinkedInLogo className="h-6 w-6" />
+                  </a>
+                  <button type="button" onClick={openChat} aria-label={t.hero.askCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                    <MessageSquare className="h-6 w-6" />
+                  </button>
+                </div>
               </div>
-
-              <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight mb-4">
-                {lang === 'zh' ? '我是' : "I'm"} <span className="text-primary">Yifan Xue</span>
-                <br />
-                <span className="text-muted-foreground">{t.greeting}</span>
-                <br />
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={roleIndex}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="text-foreground"
-                  >
-                    {t.greetingRoles[roleIndex]}
-                  </motion.span>
-                </AnimatePresence>
-              </h1>
-
-              <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                {t.pillLabels.map((label) => (
-                  <span key={label} className="px-4 py-2 rounded-full border border-border bg-muted/50 text-sm font-medium">
-                    {label}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+            </motion.section>
           </div>
 
           {/* Nav Row */}
@@ -238,7 +291,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             aria-label="Section navigation"
-            className="mt-16 md:mt-24 flex flex-wrap justify-center gap-3"
+            className="mt-10 md:mt-12 flex flex-wrap justify-center gap-3"
           >
             {navItems.map((item) => (
               <a
@@ -323,6 +376,32 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
                 </ul>
               </div>
             </AnimatedSection>
+
+            {/* Huitongduoyuan */}
+            <AnimatedSection delay={0.3}>
+              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4">
+                <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-border ring-4 ring-background" />
+                <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className="text-2xl font-bold">{t.experience.huitong.company}</h3>
+                    <p className="text-primary font-medium">{t.experience.huitong.role}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-foreground">{t.experience.huitong.period}</p>
+                    <p className="text-xs text-muted-foreground">{t.experience.huitong.location}</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground mb-4">{t.experience.huitong.desc}</p>
+                <ul className="space-y-2">
+                  {t.experience.huitong.highlights.map((h: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
@@ -340,7 +419,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           </AnimatedSection>
 
           <div className="space-y-12">
-            {t.projects.items.map((project: any, i: number) => (
+            {t.projects.items.map((project: ProjectItem, i: number) => (
               <AnimatedSection key={i} delay={0.1 * (i + 1)}>
                 <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12 last:pb-0">
                   <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
@@ -399,7 +478,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           </AnimatedSection>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {t.education.items.map((edu: any, i: number) => (
+            {t.education.items.map((edu: EducationItem, i: number) => (
               <AnimatedSection key={i} delay={0.1 * (i + 1)}>
                 <div className="p-6 rounded-2xl bg-card border border-border relative overflow-hidden h-full">
                   <div className="absolute top-0 right-0 p-4 opacity-5">
@@ -416,8 +495,8 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section id="tech" className="py-16 md:py-24">
+      {/* Tech Stack section is hidden for now; the hero Technical Arsenal carries this information. */}
+      {/* <section id="tech" className="py-16 md:py-24">
         <div className="max-w-5xl mx-auto px-6">
           <AnimatedSection>
             <h2 className="font-display text-2xl font-semibold mb-12 flex items-center gap-3">
@@ -429,7 +508,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           </AnimatedSection>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {t.techStack.categories.map((cat: any, i: number) => (
+            {t.techStack.categories.map((cat: TechCategory, i: number) => (
               <AnimatedSection key={i} delay={0.1 * i}>
                 <div className="p-6 rounded-2xl bg-card border border-border h-full">
                   <h3 className="text-sm font-bold text-primary uppercase tracking-wider mb-4">{cat.name}</h3>
@@ -445,7 +524,7 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
       <footer id="contact" className="py-16 md:py-24 border-t border-border">

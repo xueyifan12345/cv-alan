@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App.tsx'
 import GlobalNav from './GlobalNav.tsx'
+import CursorGlow from './CursorGlow.tsx'
 import { articleRegistry, getZhSlugs } from './articles/registry'
 
 const FloatingChat = lazy(() => import('./FloatingChat'))
@@ -98,6 +99,12 @@ function GlobalMusic() {
   )
 }
 
+function GlobalCursorGlow() {
+  const { pathname } = useLocation()
+  if (pathname.startsWith('/ops')) return null
+  return <CursorGlow />
+}
+
 function ConditionalNav() {
   const { pathname } = useLocation()
   if (pathname.startsWith('/ops')) return null
@@ -188,6 +195,7 @@ const app = (
           </Routes>
         </Suspense>
       </PageTransition>
+      <GlobalCursorGlow />
       <GlobalChat />
       <GlobalMusic />
       <Analytics />
