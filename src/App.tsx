@@ -85,9 +85,9 @@ const StorySection = ({ t }: { t: Translation }) => {
             <div className="grid gap-4">
               {t.summary.cards.map((card: SummaryCard, i: number) => (
                 <AnimatedSection key={i} delay={0.1 * (i + 1)}>
-                  <div className="p-5 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all group">
+                  <div className="p-5 rounded-2xl bg-card border border-border hover:border-primary/30 hover:shadow-md portfolio-card-hover transition-all group">
                     <h3 className="font-bold mb-1 group-hover:text-primary transition-colors">{card.title}</h3>
-                    <p className="text-sm text-muted-foreground">{card.desc}</p>
+                    <p className="text-sm text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200">{card.desc}</p>
                   </div>
                 </AnimatedSection>
               ))}
@@ -297,10 +297,10 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className={`px-4 py-2 rounded-full border text-sm font-medium transition-all duration-150 ${
+                className={`px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
                   activeSection === item.id
-                    ? 'border-primary text-primary bg-primary/5'
-                    : 'border-border bg-muted/50 text-muted-foreground hover:border-primary hover:text-primary'
+                    ? 'border-primary text-primary bg-primary/10 shadow-sm shadow-primary/20'
+                    : 'border-border bg-muted/50 text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/8 hover:scale-105 hover:shadow-sm hover:shadow-primary/10'
                 }`}
               >
                 {item.label}
@@ -327,11 +327,11 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           <div className="space-y-12">
             {/* Sagent */}
             <AnimatedSection delay={0.1}>
-              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12">
+              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12 group">
                 <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="text-2xl font-bold">{t.experience.sagent.company}</h3>
+                    <h3 className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary">{t.experience.sagent.company}</h3>
                     <p className="text-primary font-medium">{t.experience.sagent.role}</p>
                   </div>
                   <div className="text-right">
@@ -339,10 +339,10 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
                     <p className="text-xs text-muted-foreground">{t.experience.sagent.location}</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground mb-4">{t.experience.sagent.desc}</p>
+                <p className="text-muted-foreground mb-4 transition-colors duration-200 group-hover:text-foreground">{t.experience.sagent.desc}</p>
                 <ul className="space-y-2">
                   {t.experience.sagent.highlights.map((h: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground/80">
                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       {h}
                     </li>
@@ -353,11 +353,11 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
 
             {/* Walmart */}
             <AnimatedSection delay={0.2}>
-              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4">
+              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4 group">
                 <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-border ring-4 ring-background" />
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="text-2xl font-bold">{t.experience.walmart.company}</h3>
+                    <h3 className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary">{t.experience.walmart.company}</h3>
                     <p className="text-primary font-medium">{t.experience.walmart.role}</p>
                   </div>
                   <div className="text-right">
@@ -365,10 +365,10 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
                     <p className="text-xs text-muted-foreground">{t.experience.walmart.location}</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground mb-4">{t.experience.walmart.desc}</p>
+                <p className="text-muted-foreground mb-4 transition-colors duration-200 group-hover:text-foreground">{t.experience.walmart.desc}</p>
                 <ul className="space-y-2">
                   {t.experience.walmart.highlights.map((h: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground/80">
                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       {h}
                     </li>
@@ -379,11 +379,11 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
 
             {/* Huitongduoyuan */}
             <AnimatedSection delay={0.3}>
-              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4">
+              <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-4 group">
                 <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-border ring-4 ring-background" />
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
-                    <h3 className="text-2xl font-bold">{t.experience.huitong.company}</h3>
+                    <h3 className="text-2xl font-bold transition-colors duration-200 group-hover:text-primary">{t.experience.huitong.company}</h3>
                     <p className="text-primary font-medium">{t.experience.huitong.role}</p>
                   </div>
                   <div className="text-right">
@@ -391,10 +391,10 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
                     <p className="text-xs text-muted-foreground">{t.experience.huitong.location}</p>
                   </div>
                 </div>
-                <p className="text-muted-foreground mb-4">{t.experience.huitong.desc}</p>
+                <p className="text-muted-foreground mb-4 transition-colors duration-200 group-hover:text-foreground">{t.experience.huitong.desc}</p>
                 <ul className="space-y-2">
                   {t.experience.huitong.highlights.map((h: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground/80">
                       <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                       {h}
                     </li>
@@ -421,11 +421,11 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           <div className="space-y-12">
             {t.projects.items.map((project: ProjectItem, i: number) => (
               <AnimatedSection key={i} delay={0.1 * (i + 1)}>
-                <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12 last:pb-0">
+                <div className="relative pl-8 md:pl-12 border-l-2 border-border pb-12 last:pb-0 group">
                   <div className="absolute left-[-9px] top-2 w-4 h-4 rounded-full bg-primary ring-4 ring-background" />
                   <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-foreground">{project.title}</h3>
+                      <h3 className="text-2xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary">{project.title}</h3>
                       <p className="text-primary font-medium">{project.tech}</p>
                     </div>
                     <div className="text-right flex flex-col items-end gap-1">
@@ -439,10 +439,10 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
                       </a>
                     </div>
                   </div>
-                  <p className="text-muted-foreground mb-4">{project.desc}</p>
+                  <p className="text-muted-foreground mb-4 transition-colors duration-200 group-hover:text-foreground">{project.desc}</p>
                   <ul className="space-y-2">
                     {project.highlights.map((h: string, j: number) => (
-                      <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground/80">
                         <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                         {h}
                       </li>
@@ -454,11 +454,11 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           </div>
 
           <AnimatedSection delay={0.4}>
-            <div className="mt-16 p-6 rounded-2xl bg-muted/30 border border-border text-center">
-              <p className="text-sm text-muted-foreground italic">
+            <div className="mt-16 p-6 rounded-2xl bg-muted/30 border border-border hover:border-primary/30 hover:bg-primary/5 transition-all duration-200 text-center group">
+              <p className="text-sm text-muted-foreground italic group-hover:text-foreground/70 transition-colors duration-200">
                 {lang === 'zh' 
-                  ? '利用 AI 配对编程（Gemini CLI, Claude）加速脚手架搭建和调试，同时主导架构、安全和产品决策。' 
-                  : 'Leveraged AI pair-programming (Gemini CLI, Claude) to accelerate scaffolding and debugging while owning architecture, security, and product decisions.'}
+                  ? '利用 AI 配对编程（Gemini CLI, Claude, Codex）加速脚手架搭建和调试，同时主导架构、安全和产品决策。' 
+                  : 'Leveraged AI pair-programming (Gemini CLI, Claude, Codex) to accelerate scaffolding and debugging while owning architecture, security, and product decisions.'}
               </p>
             </div>
           </AnimatedSection>
@@ -480,14 +480,14 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
           <div className="grid md:grid-cols-2 gap-8">
             {t.education.items.map((edu: EducationItem, i: number) => (
               <AnimatedSection key={i} delay={0.1 * (i + 1)}>
-                <div className="p-6 rounded-2xl bg-card border border-border relative overflow-hidden h-full">
-                  <div className="absolute top-0 right-0 p-4 opacity-5">
+                <div className="portfolio-card portfolio-card-hover p-6 rounded-2xl h-full group">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
                     <GraduationCap className="w-24 h-24" />
                   </div>
                   <p className="text-sm font-mono text-primary font-bold mb-2">{edu.year}</p>
-                  <h3 className="text-lg font-bold mb-1">{edu.title}</h3>
+                  <h3 className="text-lg font-bold mb-1 transition-colors duration-200 group-hover:text-primary">{edu.title}</h3>
                   <p className="font-medium text-foreground/80 mb-2">{edu.org}</p>
-                  <p className="text-sm text-muted-foreground">{edu.desc}</p>
+                  <p className="text-sm text-muted-foreground transition-colors duration-200 group-hover:text-foreground/80">{edu.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -537,11 +537,34 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
               {lang === 'zh' ? '我一直对新的机会和有趣的项目持开放态度。' : "I'm always open to new opportunities and interesting projects."}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href={`mailto:${t.email}`} className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-bold hover:brightness-110 transition-all flex items-center gap-2">
-                <Mail className="w-5 h-5" /> {lang === 'zh' ? '打个招呼' : 'Say Hello'}
+              <a
+                href={`mailto:${t.email}`}
+                className="group px-8 py-3 rounded-full bg-primary text-primary-foreground font-bold hover:brightness-110 hover:scale-105 hover:shadow-lg hover:shadow-primary/25 transition-all duration-200 flex items-center gap-2"
+              >
+                <Mail className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                {lang === 'zh' ? '发邮件给我' : 'Email Me'}
               </a>
-              <a href="https://linkedin.com/in/xueyifan" target="_blank" rel="noopener noreferrer" className="px-8 py-3 rounded-full border border-border font-bold hover:bg-muted transition-all flex items-center gap-2">
-                <LinkedInLogo className="w-5 h-5" /> LinkedIn
+              <a
+                href="tel:+18059183669"
+                className="group px-8 py-3 rounded-full border border-border font-bold hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:scale-105 hover:shadow-md transition-all duration-200 flex items-center gap-2"
+              >
+                <Phone className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                {lang === 'zh' ? '打电话' : 'Call Me'}
+              </a>
+              <a
+                href="sms:+18059183669"
+                className="group px-8 py-3 rounded-full border border-border font-bold hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:scale-105 hover:shadow-md transition-all duration-200 flex items-center gap-2"
+              >
+                <MessageSquare className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+                {lang === 'zh' ? '发短信' : 'Text Me'}
+              </a>
+              <a
+                href="https://linkedin.com/in/xueyifan"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group px-8 py-3 rounded-full border border-border font-bold hover:border-primary/50 hover:bg-primary/5 hover:text-primary hover:scale-105 hover:shadow-md transition-all duration-200 flex items-center gap-2"
+              >
+                <LinkedInLogo className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" /> LinkedIn
               </a>
             </div>
           </AnimatedSection>

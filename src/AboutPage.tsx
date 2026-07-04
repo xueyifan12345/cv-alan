@@ -241,9 +241,9 @@ export default function AboutPage({ lang = 'en' }: { lang?: AboutLang }) {
           </h2>
           <div className="space-y-4">
             {t.faq.map((item) => (
-              <div key={item.q} className="portfolio-card p-4 rounded-lg">
-                <p className="font-medium text-foreground text-sm mb-2">{item.q}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+              <div key={item.q} className="portfolio-card portfolio-card-hover p-4 rounded-lg group">
+                <p className="font-medium text-foreground text-sm mb-2 group-hover:text-primary transition-colors duration-200">{item.q}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed group-hover:text-foreground/70 transition-colors duration-200">{item.a}</p>
               </div>
             ))}
           </div>
