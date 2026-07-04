@@ -151,138 +151,144 @@ const App = ({ lang = 'en' }: { lang?: 'zh' | 'en' }) => {
       {/* Hero */}
       <header className="relative pt-28 pb-14 md:pt-36 md:pb-20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 auto-rows-min">
-            <motion.section
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 sm:p-8 lg:col-span-2 lg:row-span-4 min-h-[430px] flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-muted p-0.5">
-                    <img src="/foto-avatar.png" alt="Yifan Xue" className="h-full w-full rounded-full object-cover" />
-                  </div>
-                  <div>
-                    <div className="inline-flex items-center gap-2 text-xs font-mono text-success">
-                      <span className="relative flex h-2.5 w-2.5">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
-                        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
-                      </span>
-                      {t.hero.availability}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+            {/* Left column: hero + connect */}
+            <div className="lg:col-span-2 flex flex-col gap-4">
+              <motion.section
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 sm:p-8 flex-1 min-h-[430px] flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-muted p-0.5">
+                      <img src="/foto-avatar.png" alt="Yifan Xue" className="h-full w-full rounded-full object-cover" />
                     </div>
-                  </div>
-                </div>
-
-                <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-5">
-                  Yifan Xue
-                </h1>
-                <div className="min-h-[2.5rem] mb-5">
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={roleIndex}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.24 }}
-                      className="text-xl sm:text-2xl text-muted-foreground"
-                    >
-                      {t.greetingRoles[roleIndex]}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-                <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-muted-foreground">
-                  {t.hero.summaryPrefix} <strong className="text-foreground">{t.hero.summaryStrong}</strong> {t.hero.summarySuffix}
-                </p>
-              </div>
-
-              <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                <a href="#projects" className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition hover:opacity-90">
-                  {t.hero.primaryCta}
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <a href={`mailto:${t.email}`} className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-foreground transition hover:border-primary/50 hover:bg-primary/5">
-                  <Mail className="h-4 w-4" />
-                  {t.hero.secondaryCta}
-                </a>
-              </div>
-            </motion.section>
-
-            <motion.aside
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.08 }}
-              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-5 flex items-center gap-4"
-            >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-foreground/5">
-                <MapPin className="h-5 w-5 text-foreground" />
-              </div>
-              <div>
-                <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{t.hero.locationLabel}</p>
-                <p className="font-bold text-foreground">{t.hero.city}</p>
-                <p className="text-xs text-muted-foreground">{t.hero.workMode}</p>
-              </div>
-            </motion.aside>
-
-            <motion.aside
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.14 }}
-              className="portfolio-card rounded-2xl md:rounded-3xl p-6 lg:row-span-5"
-            >
-              <div className="mb-5 flex items-center gap-2 border-b border-border pb-4">
-                <Code className="h-5 w-5 text-primary" />
-                <h2 className="font-bold">{t.hero.techTitle}</h2>
-              </div>
-              <div className="space-y-6">
-                {t.techStack.categories.map((cat: TechCategory, i: number) => {
-                  const Icon = techIcons[i] ?? Cpu
-                  return (
-                    <div key={cat.name}>
-                      <div className="mb-2 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
-                        <Icon className="h-4 w-4" />
-                        {cat.name}
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {cat.items.map((item: string) => (
-                          <span key={item} className="skill-chip px-2.5 py-1 text-xs">
-                            {item}
-                          </span>
-                        ))}
+                    <div>
+                      <div className="inline-flex items-center gap-2 text-xs font-mono text-success">
+                        <span className="relative flex h-2.5 w-2.5">
+                          <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
+                          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-success" />
+                        </span>
+                        {t.hero.availability}
                       </div>
                     </div>
-                  )
-                })}
-              </div>
-            </motion.aside>
+                  </div>
 
-            <motion.section
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 lg:col-span-2 lg:min-h-[420px] flex"
-            >
-              <div className="flex flex-1 flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
-                <div className="max-w-xl">
-                  <h2 className="font-display text-2xl font-bold text-foreground">{t.hero.connectTitle}</h2>
-                  <p className="mt-2 text-base text-muted-foreground">{t.hero.connectText}</p>
+                  <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-5">
+                    Yifan Xue
+                  </h1>
+                  <div className="min-h-[2.5rem] mb-5">
+                    <AnimatePresence mode="wait">
+                      <motion.p
+                        key={roleIndex}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.24 }}
+                        className="text-xl sm:text-2xl text-muted-foreground"
+                      >
+                        {t.greetingRoles[roleIndex]}
+                      </motion.p>
+                    </AnimatePresence>
+                  </div>
+                  <p className="max-w-3xl text-base sm:text-lg leading-relaxed text-muted-foreground">
+                    {t.hero.summaryPrefix} <strong className="text-foreground">{t.hero.summaryStrong}</strong> {t.hero.summarySuffix}
+                  </p>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <a href="tel:+18059183669" aria-label="Call Yifan" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
-                    <Phone className="h-6 w-6" />
+
+                <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                  <a href="#projects" className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-bold text-background transition hover:opacity-90">
+                    {t.hero.primaryCta}
+                    <ArrowRight className="h-4 w-4" />
                   </a>
-                  <a href={`mailto:${t.email}`} aria-label={t.hero.emailCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
-                    <Mail className="h-6 w-6" />
+                  <a href={`mailto:${t.email}`} className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-bold text-foreground transition hover:border-primary/50 hover:bg-primary/5">
+                    <Mail className="h-4 w-4" />
+                    {t.hero.secondaryCta}
                   </a>
-                  <a href="https://linkedin.com/in/xueyifan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
-                    <LinkedInLogo className="h-6 w-6" />
-                  </a>
-                  <button type="button" onClick={openChat} aria-label={t.hero.askCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
-                    <MessageSquare className="h-6 w-6" />
-                  </button>
                 </div>
-              </div>
-            </motion.section>
+              </motion.section>
+
+              <motion.section
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-6 min-h-[180px] flex"
+              >
+                <div className="flex flex-1 flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="max-w-xl">
+                    <h2 className="font-display text-2xl font-bold text-foreground">{t.hero.connectTitle}</h2>
+                    <p className="mt-2 text-base text-muted-foreground">{t.hero.connectText}</p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <a href="tel:+18059183669" aria-label="Call Yifan" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                      <Phone className="h-6 w-6" />
+                    </a>
+                    <a href={`mailto:${t.email}`} aria-label={t.hero.emailCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                      <Mail className="h-6 w-6" />
+                    </a>
+                    <a href="https://linkedin.com/in/xueyifan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                      <LinkedInLogo className="h-6 w-6" />
+                    </a>
+                    <button type="button" onClick={openChat} aria-label={t.hero.askCta} className="flex h-14 w-14 items-center justify-center rounded-full border border-border bg-foreground/5 transition hover:border-primary/40 hover:text-primary">
+                      <MessageSquare className="h-6 w-6" />
+                    </button>
+                  </div>
+                </div>
+              </motion.section>
+            </div>
+
+            {/* Right column: location + tech arsenal */}
+            <div className="flex flex-col gap-4">
+              <motion.aside
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.08 }}
+                className="portfolio-card portfolio-card-hover rounded-2xl md:rounded-3xl p-5 flex items-center gap-4 shrink-0"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-foreground/5">
+                  <MapPin className="h-5 w-5 text-foreground" />
+                </div>
+                <div>
+                  <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{t.hero.locationLabel}</p>
+                  <p className="font-bold text-foreground">{t.hero.city}</p>
+                  <p className="text-xs text-muted-foreground">{t.hero.workMode}</p>
+                </div>
+              </motion.aside>
+
+              <motion.aside
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.14 }}
+                className="portfolio-card rounded-2xl md:rounded-3xl p-6 flex-1 flex flex-col min-h-0"
+              >
+                <div className="mb-5 flex items-center gap-2 border-b border-border pb-4 shrink-0">
+                  <Code className="h-5 w-5 text-primary" />
+                  <h2 className="font-bold">{t.hero.techTitle}</h2>
+                </div>
+                <div className="overflow-y-auto flex-1 space-y-6 pr-1">
+                  {t.techStack.categories.map((cat: TechCategory, i: number) => {
+                    const Icon = techIcons[i] ?? Cpu
+                    return (
+                      <div key={cat.name}>
+                        <div className="mb-2 flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+                          <Icon className="h-4 w-4" />
+                          {cat.name}
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {cat.items.map((item: string) => (
+                            <span key={item} className="skill-chip px-2.5 py-1 text-xs">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </motion.aside>
+            </div>
           </div>
 
           {/* Nav Row */}
